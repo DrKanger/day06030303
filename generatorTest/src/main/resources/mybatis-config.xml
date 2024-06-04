@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+
+    <!--引入属性文件-->
+    <properties resource="db.properties">
+    </properties>
+
+    <plugins>
+        <!-- 分页拦截器  -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 分页参数合理化 ：
+            当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页。
+            默认false 时，直接根据参数进行查询 -->
+            <property name="reasonable" value="true"/>
+            <!--支持接口传参 -->
+            <property name="supportMethodsArguments" value="true"/>
+        </plugin>
+    </plugins>
+    <!--环境配置-->
+    <environments default="development">
+        <environment id="development">
+            <!-- 事务管理器JDBC-->
+            <transactionManager type="JDBC"/>
+            <!--  连接池
+            两种方式，直接写与外连接
+${}表示引用
+            带了前缀防止冲突
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--加载映射文件-->
+    <mappers>
+        <mapper resource="com/yh/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>
